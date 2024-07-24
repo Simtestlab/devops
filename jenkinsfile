@@ -1,0 +1,20 @@
+pipeline {
+    agent none
+
+    stages {
+        stage('Check Git Installation') {
+            agent { label 'matab' }
+            steps {
+                script {
+                    def gitVersion = sh(script: 'git --version', returnStdout: true).trim()
+                    
+                    if (gitVersion) {
+                        echo "Git is installed. Version: ${gitVersion}"
+                    } else {
+                        error("Git is not installed.")
+                    }
+                }
+            }
+        }
+    }
+}
